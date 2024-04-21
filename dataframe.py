@@ -59,12 +59,12 @@ for EACH_LIST in HREF_LIST:
         lines = table.split('\n')
     
         #####コードの追加#####
-        # 営業時間と定休日を取得する
+        # 営業時間を取得する
         if '営業時間' in lines:
-            # 営業時間と定休日のインデックスを取得する
+            # 営業時間のインデックスを取得する
             business_hours_index = lines.index('営業時間')
 
-            # 営業時間と定休日を取得する
+            # 営業時間を取得する
             business_hours_list = lines[business_hours_index + 1 : ]
             business_hours = ", ".join(business_hours_list)
 
