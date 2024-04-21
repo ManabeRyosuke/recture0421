@@ -1,3 +1,4 @@
+# 必要なライブラリをインポート
 import yaml #コードの追加
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -9,11 +10,19 @@ from selenium.webdriver.common.by import By
 from time import sleep
 
 
-# yamlファイルを読み込む　追加
-with open('input.yaml') as file:
-    obj = yaml.safe_load(file)
-    url = obj['URL']
-    
+import os
+import sys
+
+# exeを実行している作業ディレクトリを読み込みbase_pathに格納
+base_path = os.path.dirname(os.path.abspath(sys.argv[0]))
+# 作業ディレクトリとconfig.yamlの文字列を結合し絶対パスを取得する
+config_file_path = os.path.join(base_path, "config.yaml")
+# 絶対パスでconfig.yamlを読み込む
+with open(config_file_path, encoding='utf-8') as file:
+    config = yaml.safe_load(file.read())
+    url = config['URL']
+
+
 
 # データフレームを定義
 df_obj = pd.DataFrame(columns=["店名", "お問い合わせ", "住所", "営業時間", "URL"])
@@ -67,10 +76,10 @@ for EACH_LIST in HREF_LIST:
 
         # 営業時間と定休日を取得する
         if '営業時間' in lines:
-            # 営業時間と定休日のインデックスを取得する
+            # 営業時間のインデックスを取得する
             business_hours_index = lines.index('営業時間')
 
-            # 営業時間と定休日を取得する
+            # 営業時間を取得する
             business_hours_list = lines[business_hours_index + 1 : ]
             business_hours = ", ".join(business_hours_list)
 
@@ -92,8 +101,8 @@ for EACH_LIST in HREF_LIST:
 # WebDriverを閉じる
 driver.quit()
 
-# CSVファイルに出力します
+# CSVファイルに出力
 df_obj.to_csv('output.csv', index=False)
 
-# Excelファイルに出力します
+# Excelファイルに出力
 df_obj.to_excel('output.xlsx', index=False)
