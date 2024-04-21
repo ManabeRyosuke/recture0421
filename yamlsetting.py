@@ -1,3 +1,4 @@
+# 必要なライブラリをインポート
 import yaml #コードの追加
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -67,10 +68,10 @@ for EACH_LIST in HREF_LIST:
 
         # 営業時間と定休日を取得する
         if '営業時間' in lines:
-            # 営業時間と定休日のインデックスを取得する
+            # 営業時間のインデックスを取得する
             business_hours_index = lines.index('営業時間')
 
-            # 営業時間と定休日を取得する
+            # 営業時間を取得する
             business_hours_list = lines[business_hours_index + 1 : ]
             business_hours = ", ".join(business_hours_list)
 
@@ -92,8 +93,8 @@ for EACH_LIST in HREF_LIST:
 # WebDriverを閉じる
 driver.quit()
 
-# CSVファイルに出力します
+# CSVファイルに出力
 df_obj.to_csv('output.csv', index=False)
 
-# Excelファイルに出力します
+# Excelファイルに出力
 df_obj.to_excel('output.xlsx', index=False)
