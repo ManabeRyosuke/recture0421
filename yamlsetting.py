@@ -10,11 +10,19 @@ from selenium.webdriver.common.by import By
 from time import sleep
 
 
-# yamlファイルを読み込む　追加
-with open('input.yaml') as file:
-    obj = yaml.safe_load(file)
-    url = obj['URL']
-    
+import os
+import sys
+
+# exeを実行している作業ディレクトリを読み込みbase_pathに格納
+base_path = os.path.dirname(os.path.abspath(sys.argv[0]))
+# 作業ディレクトリとconfig.yamlの文字列を結合し絶対パスを取得する
+config_file_path = os.path.join(base_path, "config.yaml")
+# 絶対パスでconfig.yamlを読み込む
+with open(config_file_path, encoding='utf-8') as file:
+    config = yaml.safe_load(file.read())
+    url = config['URL']
+
+
 
 # データフレームを定義
 df_obj = pd.DataFrame(columns=["店名", "お問い合わせ", "住所", "営業時間", "URL"])
